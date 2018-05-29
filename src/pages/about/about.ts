@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { ProductProvider } from "../../providers/product/product";
+
 
 @Component({
   selector: 'page-about',
@@ -7,8 +9,16 @@ import { NavController } from 'ionic-angular';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController) {
+  public bestSellerProd = [];
+
+  constructor(private productProvider:ProductProvider ,public navCtrl: NavController) {
 
   }
 
+  ionViewDidLoad(){
+    this.productProvider.getProducts()
+    .subscribe((allProducts) => {
+      this.bestSellerProd = allProducts.filter(product => product.bestSeller == true) ;//filter
+    });
+  }
 }
